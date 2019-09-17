@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>   
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha1/0.6.0/sha1.js"></script>  
+    <script>
+    let urlGet = 'https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=520706ccbb022a401f3be56da741823ba84b95f0';
+    let urlPost = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=520706ccbb022a401f3be56da741823ba84b95f0';
+    var msgCriptografada;
+    function getMagia() {
+        axios({
+            method: 'get',
+            url: urlGet,
+            responseType: 'json'
+        }).then(function (response) {
+            msgCriptografada = response.data;
+            msgCriptografada.decifrado = 'hate cannot drive out hate; only love can do that. martin luther king junior';
+            msgCriptografada.resumo_criptografico = sha1(msgCriptografada.decifrado);
+            var arquivo = document.createElement('a');
+            arquivo.href = 'data:attachment/text,' + encodeURI(JSON.stringify(msgCriptografada));
+            arquivo.download = 'answer.json';
+            arquivo.click();   
+        })      
+    }
+    function sendMagia() {
+        var file = document.querySelector('#file');  
+        var formData = new FormData();
+        formData.append('answer',file.files[0],'answer.json');
+        axios({
+                method: 'post',
+                url: urlPost,
+                data: formData
+             }).then(function (response) {
+                console.log(response);
+             })
+    }
+    </script>
+</head>
+<body>
+    <input name="answer" id="file" type="file"> 
+    <button onclick="getMagia()">Pega Mensagem</button>
+    <button onclick="sendMagia()">manda Mensagem</button>
+</body>
+</html>
