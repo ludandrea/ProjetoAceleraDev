@@ -7,8 +7,8 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha1/0.6.0/sha1.js"></script>  
     <script>
-    let urlGet = 'https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=520706ccbb022a401f3be56da741823ba84b95f0';
-    let urlPost = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=520706ccbb022a401f3be56da741823ba84b95f0';
+    let urlGet = 'https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=seutoken';
+    let urlPost = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=seutoken';
     var msgCriptografada;
     function getMagia() {
         axios({
@@ -17,7 +17,7 @@
             responseType: 'json'
         }).then(function (response) {
             msgCriptografada = response.data;
-            msgCriptografada.decifrado = 'hate cannot drive out hate; only love can do that. martin luther king junior';
+            msgCriptografada.decifrado = 'aqui vai a mensagem decifrada';
             msgCriptografada.resumo_criptografico = sha1(msgCriptografada.decifrado);
             var arquivo = document.createElement('a');
             arquivo.href = 'data:attachment/text,' + encodeURI(JSON.stringify(msgCriptografada));
