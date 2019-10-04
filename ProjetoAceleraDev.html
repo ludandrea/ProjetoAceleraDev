@@ -7,23 +7,36 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha1/0.6.0/sha1.js"></script>  
     <script>
-    let urlGet = 'https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=seutoken';
-    let urlPost = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=seutoken';
+    let urlGet = 'https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=520706ccbb022a401f3be56da741823ba84b95f0';
+    let urlPost = 'https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=520706ccbb022a401f3be56da741823ba84b95f0';
+    var alfabeto = 'abcdefghijklmnopqrstuvwxyz';
     var msgCriptografada;
+    var msgDecifrada = '';
     function getMagia() {
         axios({
             method: 'get',
             url: urlGet,
             responseType: 'json'
-        }).then(function (response) {
-            msgCriptografada = response.data;
-            msgCriptografada.decifrado = 'aqui vai a mensagem decifrada';
-            msgCriptografada.resumo_criptografico = sha1(msgCriptografada.decifrado);
-            var arquivo = document.createElement('a');
-            arquivo.href = 'data:attachment/text,' + encodeURI(JSON.stringify(msgCriptografada));
-            arquivo.download = 'answer.json';
-            arquivo.click();   
-        })      
+        }).then(function (response) {         
+            msgCriptografada = response.data;          
+        })        
+    }
+    function decifra(){           
+        for(var i = 0; i <= msgCriptografada.cifrado.length; i++){
+            if(alfabeto.includes(msgCriptografada.cifrado.charAt(i))){
+                msgDecifrada = msgDecifrada + alfabeto.charAt(alfabeto.indexOf(msgCriptografada.cifrado.charAt(i))-msgCriptografada.numero_casas)  
+            }else{
+                msgDecifrada =msgDecifrada + msgCriptografada.cifrado.charAt(i)
+            }
+        }
+        msgCriptografada.decifrado = msgDecifrada; 
+    }
+    function cria(){
+        msgCriptografada.resumo_criptografico = sha1(msgCriptografada.decifrado);
+        var arquivo = document.createElement('a');
+        arquivo.href = 'data:attachment/text,' + encodeURI(JSON.stringify(msgCriptografada));
+        arquivo.download = 'answer.json';
+        arquivo.click(); 
     }
     function sendMagia() {
         var file = document.querySelector('#file');  
@@ -43,5 +56,7 @@
     <input name="answer" id="file" type="file"> 
     <button onclick="getMagia()">Pega Mensagem</button>
     <button onclick="sendMagia()">manda Mensagem</button>
+    <button onclick="decifra()">decifra</button>
+    <button onclick="cria()">cria</button>
 </body>
 </html>
