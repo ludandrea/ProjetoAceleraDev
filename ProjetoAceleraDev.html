@@ -18,7 +18,11 @@
             url: urlGet,
             responseType: 'json'
         }).then(function (response) {         
-            msgCriptografada = response.data;          
+            msgCriptografada = response.data;
+            if(response){
+                decifra()
+                cria()   
+            }          
         })        
     }
     function decifra(){           
@@ -56,7 +60,5 @@
     <input name="answer" id="file" type="file"> 
     <button onclick="getMagia()">Pega Mensagem</button>
     <button onclick="sendMagia()">manda Mensagem</button>
-    <button onclick="decifra()">decifra</button>
-    <button onclick="cria()">cria</button>
 </body>
 </html>
